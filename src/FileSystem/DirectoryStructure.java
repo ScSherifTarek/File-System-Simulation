@@ -6,8 +6,8 @@ import java.util.Map;
 
 public class DirectoryStructure {
 	private String name;
-	private Map<String, FileStructure> files=new HashMap<String, FileStructure>();
-	private Map<String, DirectoryStructure> dirs= new HashMap<String, DirectoryStructure>();
+	public Map<String, FileStructure> files=new HashMap<String, FileStructure>();
+	public Map<String, DirectoryStructure> dirs= new HashMap<String, DirectoryStructure>();
 	
 	public DirectoryStructure()
 	{
