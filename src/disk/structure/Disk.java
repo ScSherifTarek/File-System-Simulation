@@ -3,13 +3,13 @@ package disk.structure;
 import java.util.ArrayList;
 
 public class Disk {
-    private int actualSize; /** the whole size of my disk **/
-    private int freeSpace; /** the current unused space of my disk **/
-    private int size; /** the current used space of my disk**/
-    private int []diskArray; /** virtual disk **/
+    private static int actualSize; /** the whole size of my disk **/
+    private static int freeSpace; /** the current unused space of my disk **/
+    private static int size; /** the current used space of my disk**/
+    private static int []diskArray; /** virtual disk **/
 
     private static Disk obj = null; /** the only instance of the disk in my app **/
-    private AllocationStrategy strategy;
+    private static AllocationStrategy strategy;
 
 
     /**
@@ -27,7 +27,7 @@ public class Disk {
         this.diskArray = new int[diskSize];
         /** initialize the whole disk as empty **/
         for(int i=0 ; i<actualSize; i++){
-            this.diskArray[i] = -1;
+            this.diskArray[i] = 0;
         }
     }
 
@@ -52,29 +52,32 @@ public class Disk {
         return obj;
     }
 
-    ArrayList<Integer> allocate(int size)
+    public static int allocate(int size)
     {
-        ArrayList<Integer> temp = strategy.allocate(size);
-        this.size += size;
-        this.freeSpace -= size;
+        int temp = strategy.allocate(diskArray , size);
+        size += size;
+        freeSpace -= size;
         return temp;
     }
 
-    void deallocate(ArrayList<Integer> blocks){
-        strategy.deallocate(blocks);
-        this.size -= blocks.size();
-        this.freeSpace += blocks.size();
+    public static boolean deallocate(int blocks , int fileSize){
+        if(strategy.deallocate(diskArray , blocks)) {
+            size -= fileSize;
+            freeSpace += fileSize;
+            return true;
+        }
+        return false;
     }
 
-    public int getActualSize() {
+    public static int getActualSize() {
         return actualSize;
     }
 
-    public int getFreeSpace() {
+    public static int getFreeSpace() {
         return freeSpace;
     }
 
-    public int getSize() {
+    public static int getSize() {
         return size;
     }
 
