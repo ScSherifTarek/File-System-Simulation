@@ -94,7 +94,10 @@ public class Parser {
         Scanner input = new Scanner(System.in);
         String command  = input.nextLine() ;
         CMD cmd = splitCommand(command) ;
-        cmd.path.remove(cmd.size-1);
+        if(cmd != null)
+            return null;
+        if(cmd.path != null)
+            cmd.path.remove(cmd.size-1);
         return cmd;
     }
 }

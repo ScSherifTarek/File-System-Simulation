@@ -15,7 +15,6 @@ public class Main {
     public static String fileSystemFile = "files/fileSystem.json";
 
     public static void main(String[] args) {
-        fileSystem.load(fileSystemFile);
 
         System.out.print("Enter the size of the disk in KB : ");
         int diskSize = read.nextInt();
@@ -43,6 +42,11 @@ public class Main {
         /** choice the user can do in our application **/
         while (true){
             cmd = parser.readLine();
+            if(cmd == null)
+            {
+                System.out.println("Error");
+                break;
+            }
             if(cmd.action == "CreateFile")
             {
                 fileSystem.createFile(cmd.path, cmd.fileName, cmd.size, disk);
