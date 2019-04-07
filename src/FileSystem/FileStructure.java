@@ -5,7 +5,7 @@ import java.util.Collection;
 public class FileStructure {
 	public String name;
 	public int siz;
-	private ArrayList<Integer> alloc = new ArrayList<>();
+	private int alloc;
 	public FileStructure()
 	{
 		siz=0;
@@ -20,23 +20,22 @@ public class FileStructure {
 		name = n;
 		siz = s;
 	}
-	public FileStructure(String n, int s, ArrayList<Integer> alloc)
+	public FileStructure(String n, int s, int alloc)
 	{
 		name = n;
 		siz = s;
-		setAllocated(alloc);
+		this.alloc = alloc;
 	}
 	public String toString()
 	{
 		return "-"+this.name;
 	}
-	public void setAllocated(Collection<Integer> alloc)
-	{
-		this.alloc.clear();
-		this.alloc.addAll(alloc);
+
+	public int getAlloc() {
+		return alloc;
 	}
-	public ArrayList<Integer> getAllocated()
-	{
-		return this.alloc;
+
+	public void setAlloc(int alloc) {
+		this.alloc = alloc;
 	}
 }

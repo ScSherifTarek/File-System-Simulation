@@ -1,4 +1,6 @@
 package FileSystem;
+import disk.structure.Disk;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,12 +50,17 @@ public class DirectoryStructure {
 	 * @param name the name of the file to be created
 	 * @return true if file created Successfully
 	 */
-	public Boolean createFile(String name, int siz)
+	public Boolean createFile(String name, int siz, Disk disk)
 	{
 		if(!isFileExist(name))
 		{
-			// modify combine
-			files.put(name.toLowerCase(), new FileStructure(name,siz,allocate(siz)));
+			int blocks = disk.allocate(siz);
+			if(blocks == -1)
+			{
+				System.out.println("Can't Allocate");
+				return false;
+			}
+			files.put(name.toLowerCase(), new FileStructure(name,siz,blocks));
 			return true;
 		}
 		else
@@ -68,7 +75,7 @@ public class DirectoryStructure {
 	 * @param name the file to be deleted
 	 * @return true if deleted successfully and false if not
 	 */
-	public Boolean deleteFile(String name)
+	public Boolean deleteFile(String name, Disk disk)
 	{
 		name = name.toLowerCase();
 		if(!isFileExist(name))
@@ -78,19 +85,24 @@ public class DirectoryStructure {
 		}
 		
 		FileStructure file = getFile(name);
-		removeFile(file);
-		return true;
+		return removeFile(file, disk);
 	}
 	
 	/**
 	 * 
 	 * @param file the file to remove from the current directory
 	 */
-	private void removeFile(FileStructure file)
+	private Boolean removeFile(FileStructure file, Disk disk)
 	{
 		//deallocate the file blocks from disc
-		deallocate(file.getAllocated());
+		Boolean valid = disk.deallocate(file.getAlloc(),file.siz);
+		if(!valid)
+		{
+			System.out.println("Can't DeAllocate");
+			return false;
+		}
 		files.remove(file.name.toLowerCase());
+		return true;
 	}
 	/**
 	 * 
@@ -123,7 +135,6 @@ public class DirectoryStructure {
 	{
 		if(!isDirExist(name))
 		{
-			// modify combine
 			dirs.put(name.toLowerCase(), new DirectoryStructure(name));
 			return true;
 		}
@@ -139,7 +150,7 @@ public class DirectoryStructure {
 	 * @param name the name of the directory to be deleted
 	 * @return true if deleted successfully and false if not
 	 */
-	public Boolean deleteDir(String name)
+	public Boolean deleteDir(String name, Disk disk)
 	{
 		name = name.toLowerCase();
 		if(!isDirExist(name))
@@ -149,7 +160,7 @@ public class DirectoryStructure {
 		}
 		
 		DirectoryStructure dir = getDir(name);
-		removeDir(dir);
+		removeDir(dir, disk);
 		return true;
 	}
 	
@@ -157,16 +168,16 @@ public class DirectoryStructure {
 	 * 
 	 * @param dir the directory to be deleted
 	 */
-	private void removeDir(DirectoryStructure dir)
+	private void removeDir(DirectoryStructure dir,Disk disk)
 	{
 		// remove all files from this directory
 		for(Map.Entry<String, FileStructure> m:dir.files.entrySet()){  
-			removeFile(m.getValue());
+			removeFile(m.getValue(),disk);
 		}
 		
 		// remove the directories from this directory
 		for(Map.Entry<String, DirectoryStructure> m:dir.dirs.entrySet()){  
-			removeDir(m.getValue());  
+			removeDir(m.getValue(),disk);
 		} 
 		
 		// remove the directory itself

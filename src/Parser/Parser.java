@@ -93,6 +93,8 @@ public class Parser {
     {
         Scanner input = new Scanner(System.in);
         String command  = input.nextLine() ;
-        return splitCommand(command) ;
+        CMD cmd = splitCommand(command) ;
+        cmd.path.remove(cmd.size-1);
+        return cmd;
     }
 }

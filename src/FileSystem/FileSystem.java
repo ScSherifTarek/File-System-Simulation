@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class FileSystem {
-	private static DirectoryStructure root = new DirectoryStructure("root");
-
+	private DirectoryStructure root = new DirectoryStructure("root");
 
 	/**
 	 *
@@ -38,7 +37,7 @@ public class FileSystem {
 	 * @param siz the size of the file
 	 * @return true if file created successfully and false if not
 	 */
-	public Boolean createFile(ArrayList<String> path, String name, int siz)
+	public Boolean createFile(ArrayList<String> path, String name, int siz, Disk disk)
 	{
 		DirectoryStructure pathDir = getDirOfPath(path);
 		if(pathDir == null)
@@ -47,7 +46,7 @@ public class FileSystem {
 			return false;
 		}
 
-		if(!pathDir.createFile(name, siz))
+		if(!pathDir.createFile(name, siz, disk))
 			return false;
 
 
@@ -61,7 +60,7 @@ public class FileSystem {
 	 * @param name the name of the file
 	 * @return true if deleted and false if not
 	 */
-	public Boolean deleteFile(ArrayList<String> path, String name)
+	public Boolean deleteFile(ArrayList<String> path, String name, Disk disk)
 	{
 		DirectoryStructure pathDir = getDirOfPath(path);
 		if(pathDir == null)
@@ -70,7 +69,7 @@ public class FileSystem {
 			return false;
 		}
 
-		if(!pathDir.deleteFile(name))
+		if(!pathDir.deleteFile(name, disk))
 			return false;
 
 		System.out.println("File deleted successfully");
@@ -107,7 +106,7 @@ public class FileSystem {
 	 * @param name the name of the file
 	 * @return true if deleted and false if not
 	 */
-	public Boolean deleteDir(ArrayList<String> path, String name)
+	public Boolean deleteDir(ArrayList<String> path, String name, Disk disk)
 	{
 		DirectoryStructure pathDir = getDirOfPath(path);
 		if(pathDir == null)
@@ -116,7 +115,7 @@ public class FileSystem {
 			return false;
 		}
 
-		if(!pathDir.deleteDir(name))
+		if(!pathDir.deleteDir(name, disk))
 			return false;
 
 		System.out.println("Directory deleted successfully");
