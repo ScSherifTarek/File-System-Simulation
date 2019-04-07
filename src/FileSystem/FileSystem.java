@@ -1,14 +1,20 @@
 package FileSystem;
 
+import disk.structure.*;
 import flexjson.JSONDeserializer;
 import flexjson.JSONSerializer;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class FileSystem {
-	private DirectoryStructure root = new DirectoryStructure("root");
-	
+	private static DirectoryStructure root = new DirectoryStructure("root");
+	/** eldeeb part for disk **/
+	private static AllocationStrategy allocationStrategy; /** will be determined in the runtime depends allocation strategy**/
+	private static Scanner read = new Scanner(System.in);/** to read from user **/
+	private static Disk mydisk;
+
 	/**
 	 * 
 	 * @param path to get the directory in it
@@ -168,7 +174,10 @@ public class FileSystem {
 			e.printStackTrace();
 			return false;
 		}
-		return true;
+
+		if(Disk.getStrategy().save("diskstatus.txt"))
+			return true;
+		return false;
 	}
 	
 	/**
@@ -184,15 +193,55 @@ public class FileSystem {
 			e.printStackTrace();
 			return false;
 		}
-		return true;
+		if(Disk.getStrategy().load("diskstatus.txt"))
+			return true;
+		return false;
 	}
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+
+		/** eldeeb part to initialize and prepare the disk and allocation strategy **/
+
+		System.out.print("Enter the size of the disk in KB : ");
+		int diskSize = read.nextInt();
+		System.out.println("Enter the number of allocation choice");
+		System.out.println("(1) Contiguous");
+		System.out.println("(2) Indexed");
+		System.out.println("(3) Liked");
+
+		int choice = read.nextInt();
+		switch (choice){
+			case 1:
+				allocationStrategy = new Contiguous();
+				break;
+			case 2:
+				allocationStrategy = new Indexed();
+				break;
+			case 3:
+				allocationStrategy = new Linked();
+				break;
+		}
+
+		/** mydisk object will deal with disk **/
+		mydisk = Disk.getInstance(allocationStrategy , diskSize);
+
+/**********************************************************************************/
+		/** choice the user can do in our application **/
+		while (true){
+			/** inform the user that he should enter a command **/
+			System.out.print("$$ ");
+			String command = read.nextLine();
+
+			if(command.equals("exit"))
+				break;
+			/**else
+			 	should execute the command ***/
+		}
+/********************************************************************************/
 		FileSystem f = new FileSystem();
 		ArrayList<String> path= new ArrayList<>();
 		path.add("root");
-		f.createFile(path, "File",5);		
+		f.createFile(path, "File",5);
 		f.createFile(path, "File1",10);
 		f.createFile(path, "File2",12);
 		f.createDir(path, "New Folder");
@@ -222,6 +271,8 @@ public class FileSystem {
 		f.load(filePath);
 		System.out.println();
 		f.displayDiskStructure();
+
+
 	}
 	
 

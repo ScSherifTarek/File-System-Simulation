@@ -23,17 +23,16 @@ abstract public class AllocationStrategy {
     abstract public boolean deallocate(int[] diskArray, int fistBlock);
 
     /**
-     * @return JSON String represents the root directory
+     * @return JSON String represents the disk blocks
      */
-    public String toJson()
-    {
+    public String toJson() {
         JSONSerializer serializer = new JSONSerializer();
         String json = serializer.deepSerialize(this.blockes);
         return json;
     }
 
     /**
-     * @param json the JSON string to create the root directory from
+     * @param json the JSON string to create the blocks mapping from
      */
     public void fromJson(String json) {
 
@@ -44,8 +43,7 @@ abstract public class AllocationStrategy {
      * @param path the path to save the root(JSON) in
      * @return true if saved correctly and false if not
      */
-    public Boolean save(String path)
-    {
+    public Boolean save(String path) {
         String json = this.toJson();
         try {
             ExternalFile.writeToFile(path, json);
@@ -60,8 +58,7 @@ abstract public class AllocationStrategy {
      * @param path the path to load the root(JSON) from
      * @return true if loaded correctly and false if not
      */
-    public Boolean load(String path)
-    {
+    public Boolean load(String path) {
         try {
             String json = ExternalFile.readFromFile(path);
             this.fromJson(json);

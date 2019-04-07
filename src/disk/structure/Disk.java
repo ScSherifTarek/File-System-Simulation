@@ -92,4 +92,7 @@ public class Disk {
         }
     }
 
+    public static AllocationStrategy getStrategy() {
+        return strategy;
+    }
 }
