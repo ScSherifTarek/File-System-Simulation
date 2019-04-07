@@ -1,6 +1,7 @@
 package Parser;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Parser {
 
@@ -8,11 +9,7 @@ public class Parser {
     Validation validation = new Validation() ;
     String action ;
 
-    public CMD readLine()
-    {
-        //input
-        return splitCommand("");
-    }
+
     public CMD splitCommand(String command)
     {
         String [] splittedCommand = command.split(" ");
@@ -90,5 +87,12 @@ public class Parser {
 
         }
         return cmd;
+    }
+
+    public CMD readLine ()
+    {
+        Scanner input = new Scanner(System.in);
+        String command  = input.nextLine() ;
+        return splitCommand(command) ;
     }
 }
