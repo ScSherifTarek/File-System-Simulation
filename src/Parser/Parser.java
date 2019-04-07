@@ -7,60 +7,88 @@ public class Parser {
     ArrayList<String> path = new ArrayList<>() ;
     Validation validation = new Validation() ;
     String action ;
-    public void splitCommand(String command)
+
+    public CMD readLine()
+    {
+        //input
+        return splitCommand("");
+    }
+    public CMD splitCommand(String command)
     {
         String [] splittedCommand = command.split(" ");
         action = splittedCommand[0] ;
         if (validation.validate(splittedCommand))
         {
             String type = validation.actionType(action) ;
-            putData(type , splittedCommand) ;
+            return putData(type , splittedCommand) ;
         }
+        return null ;
+
         //System.out.println(str[3]) ;
     }
 
-    private void putData(String type, String[] splittedCommand)
+    private CMD putData(String type, String[] splittedCommand)
     {
+        CMD cmd = new CMD() ;
         if (type.equals("CreateFile"))
         {
-            CreateFileCommand createFileCommand = new CreateFileCommand() ;
-            createFileCommand.action = splittedCommand[0] ;
+            cmd.action = splittedCommand[0] ;
             String buffer  = splittedCommand[1];
             String []splittedBuffer =buffer.split("/") ;
 
             for (int i=0 ; i<splittedBuffer.length ; ++i)
             {
-                createFileCommand.path.add(splittedBuffer[i]) ;
+                cmd.path.add(splittedBuffer[i]) ;
             }
 
-            createFileCommand.fileName = createFileCommand.path.get(createFileCommand.path.size()-1) ;
-            createFileCommand.size = Integer.parseInt(splittedCommand[2])  ;
+            cmd.fileName = cmd.path.get(cmd.path.size()-1) ;
+            cmd.size = Integer.parseInt(splittedCommand[2])  ;
 
-            System.out.println("action : " + createFileCommand.action);
-            System.out.println("file name : " + createFileCommand.fileName);
-            System.out.println("path : " + createFileCommand.path);
-            System.out.println("size : " + createFileCommand.size);
+            System.out.println("action : " + cmd.action);
+            System.out.println("file name : " + cmd.fileName);
+            System.out.println("path : " + cmd.path);
+            System.out.println("size : " + cmd.size);
 
+            return cmd;
         }
 
         else if (type.equals("CreateFolderAndDelete"))
         {
-            CreateFolderAndDeleteCommand createFolderAndDeleteCommand = new CreateFolderAndDeleteCommand() ;
-            createFolderAndDeleteCommand.action = splittedCommand[0] ;
+            cmd.action = splittedCommand[0] ;
             String buffer  = splittedCommand[1];
             String []splittedBuffer =buffer.split("/") ;
+
             for (int i=0 ; i<splittedBuffer.length ; ++i)
             {
-                createFolderAndDeleteCommand.path.add(splittedBuffer[i]) ;
+                cmd.path.add(splittedBuffer[i]) ;
             }
 
+            cmd.fileName = cmd.path.get(cmd.path.size()-1) ;
+            cmd.size = -1  ;
+
+            System.out.println("action : " + cmd.action);
+            System.out.println("file name : " + cmd.fileName);
+            System.out.println("path : " + cmd.path);
+            System.out.println("size : " + cmd.size);
+
+            return cmd;
         }
 
         else if (type.equals("Display"))
         {
-            CMD cmd = new CMD();
             cmd.action = splittedCommand[0] ;
+            cmd.path = null ;
+
+
+            cmd.fileName = null ;
+            cmd.size = -1  ;
+
             System.out.println("action : " + cmd.action);
+            System.out.println("file name : " + cmd.fileName);
+            System.out.println("path : " + cmd.path);
+            System.out.println("size : " + cmd.size);
+
         }
+        return cmd;
     }
 }
