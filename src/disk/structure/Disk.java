@@ -1,6 +1,5 @@
 package disk.structure;
 
-import java.util.ArrayList;
 
 public class Disk {
     private static int actualSize; /** the whole size of my disk **/
@@ -79,6 +78,18 @@ public class Disk {
 
     public static int getSize() {
         return size;
+    }
+
+    public static void dispalyDiskStatus(){
+        System.out.println("empty space ==> " + getFreeSpace());
+        System.out.println("allocated space ==> " + getSize());
+        System.out.println("*******disk**visualization********");
+        for(int i=0; i<diskArray.length; i++){
+            if(diskArray[i] > 0)
+                System.out.print(1 + " ");
+            else
+                System.out.print(0 + " ");
+        }
     }
 
 }
