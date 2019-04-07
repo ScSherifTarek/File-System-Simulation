@@ -97,7 +97,7 @@ public class Parser {
         if(cmd != null)
             return null;
         if(cmd.path != null)
-            cmd.path.remove(cmd.size-1);
+            cmd.path.remove(cmd.path.size() -1);
         return cmd;
     }
 }
