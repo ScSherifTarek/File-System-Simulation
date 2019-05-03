@@ -1,0 +1,4 @@
+<<<<<<< HEAD
+{"class":"FileSystem.DirectoryStructure","dirs":{"d1":{"class":"FileSystem.DirectoryStructure","dirs":{"d2":{"class":"FileSystem.DirectoryStructure","dirs":{},"files":{},"name":"D2"}},"files":{"file.txt":{"alloc":0,"class":"FileSystem.FileStructure","name":"file.txt","siz":100}},"name":"D1"}},"files":{},"name":"root"}
+=======
+>>>>>>> ea7efc35be1ce950ea59839e3760add8ecef3cd4
