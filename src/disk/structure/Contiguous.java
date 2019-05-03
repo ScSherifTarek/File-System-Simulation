@@ -1,22 +1,30 @@
 package disk.structure;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class Contiguous extends AllocationStrategy {
+
+    public Contiguous(){
+        status = CONTIGUOUS_BLOCK;
+    }
+
     @Override
     public int allocate(int[] diskArray, int siz) {
         ArrayList<Integer> temp = new ArrayList<>();
         boolean empty = false;
-        for(int i=0 ; i<diskArray.length - siz; i++){
-            for(int j=i; j<i+3; j++){
+        for(int i=0 ; i<=diskArray.length - siz; i++){
+            empty = true;
+            for(int j=i; j<i+siz; j++){
                 if(diskArray[j] == EMPTY_BLOCK){
-                    empty = true;
+                    empty &= true;
                 }else {
-                    empty = false;
+                    empty &= false;
+                    break;
                 }
             }
             if(empty){
-                for(int j=i; j<i+3; j++){
+                for(int j=i; j<i+siz; j++){
                     diskArray[j] = CONTIGUOUS_BLOCK;
                     temp.add(j);
                 }

@@ -12,4 +12,8 @@ public class CMD {
     {
         path = new ArrayList<>() ;
     }
+    public String toString()
+    {
+        return action+" "+fileName+" "+size+" "+path+"\n";
+    }
 }

@@ -15,8 +15,10 @@ abstract public class AllocationStrategy {
     protected static final int INDEXED_BLOCK = 2;
     protected static final int LINKED_BLOCK = 3;
 
-    protected static Map<Integer , ArrayList<Integer>> blockes = new HashMap<>();
+    protected static int status = 0;
 
+
+    protected static Map<Integer , ArrayList<Integer>> blockes = new HashMap<>();
 
     abstract public int allocate(int[] diskArray, int siz);
 
@@ -37,6 +39,7 @@ abstract public class AllocationStrategy {
     public void fromJson(String json) {
 
         this.blockes = new JSONDeserializer<Map<Integer , ArrayList<Integer>>>().deserialize( json );
+        //System.out.println(blockes);
     }
 
     /**

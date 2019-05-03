@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 public class Linked extends AllocationStrategy {
 
-
+    public Linked(){
+        status = LINKED_BLOCK;
+    }
 
 
     @Override

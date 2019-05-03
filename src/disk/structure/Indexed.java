@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 public class Indexed extends AllocationStrategy{
 
+    public Indexed(){
+        status = INDEXED_BLOCK;
+    }
+
     @Override
     public int allocate(int[] diskArray, int siz) {
         ArrayList<Integer> temp = new ArrayList<>();

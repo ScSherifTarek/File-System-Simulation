@@ -54,6 +54,7 @@ public class DirectoryStructure {
 	{
 		if(!isFileExist(name))
 		{
+			System.out.println(siz);
 			int blocks = disk.allocate(siz);
 			if(blocks == -1)
 			{

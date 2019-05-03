@@ -18,8 +18,10 @@ public class FileSystem {
 	 */
 	private DirectoryStructure getDirOfPath(ArrayList<String> path)
 	{
-		if(path.get(0).toLowerCase() != root.getName())
+		if (!path.get(0).toLowerCase().equals(root.getName()))
+		{
 			return null;
+		}
 
 		DirectoryStructure currentDir = root;
 		for(int i=1;i<path.size();i++)
@@ -163,6 +165,9 @@ public class FileSystem {
 	 */
 	public Boolean save(String path)
 	{
+		if(!Disk.saveStatus())
+			return  false;
+
 		String json = this.toJson();
 		try {
 			ExternalFile.writeToFile(path, json);
@@ -171,8 +176,9 @@ public class FileSystem {
 			return false;
 		}
 
-		if(Disk.getStrategy().save("diskstatus.txt"))
+		if(Disk.getStrategy().save("files/diskstatus.json") && Disk.save("files/diskStructure.json"))
 			return true;
+
 		return false;
 	}
 
@@ -189,7 +195,7 @@ public class FileSystem {
 			e.printStackTrace();
 			return false;
 		}
-		if(Disk.getStrategy().load("diskstatus.txt"))
+		if(Disk.getStrategy().load("files/diskstatus.json") && Disk.load("files/diskStructure.json"))
 			return true;
 		return false;
 	}

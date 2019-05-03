@@ -41,10 +41,6 @@ public class Parser {
             cmd.fileName = cmd.path.get(cmd.path.size()-1) ;
             cmd.size = Integer.parseInt(splittedCommand[2])  ;
 
-            System.out.println("action : " + cmd.action);
-            System.out.println("file name : " + cmd.fileName);
-            System.out.println("path : " + cmd.path);
-            System.out.println("size : " + cmd.size);
 
             return cmd;
         }
@@ -63,11 +59,6 @@ public class Parser {
             cmd.fileName = cmd.path.get(cmd.path.size()-1) ;
             cmd.size = -1  ;
 
-            System.out.println("action : " + cmd.action);
-            System.out.println("file name : " + cmd.fileName);
-            System.out.println("path : " + cmd.path);
-            System.out.println("size : " + cmd.size);
-
             return cmd;
         }
 
@@ -79,12 +70,6 @@ public class Parser {
 
             cmd.fileName = null ;
             cmd.size = -1  ;
-
-            System.out.println("action : " + cmd.action);
-            System.out.println("file name : " + cmd.fileName);
-            System.out.println("path : " + cmd.path);
-            System.out.println("size : " + cmd.size);
-
         }
         return cmd;
     }
@@ -93,8 +78,11 @@ public class Parser {
     {
         Scanner input = new Scanner(System.in);
         String command  = input.nextLine() ;
-        CMD cmd = splitCommand(command) ;
-        cmd.path.remove(cmd.size-1);
+        CMD cmd = splitCommand(command);
+        if(cmd == null)
+            return  null;
+        if(cmd.path != null)
+            cmd.path.remove(cmd.path.size()-1);
         return cmd;
     }
 }
