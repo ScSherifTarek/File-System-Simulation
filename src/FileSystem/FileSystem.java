@@ -191,7 +191,8 @@ public class FileSystem {
 		try {
 			String json = ExternalFile.readFromFile(path);
 			this.fromJson(json);
-		} catch (IOException e) {
+			Disk.getStrategy().load("diskstatus.txt");
+		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
